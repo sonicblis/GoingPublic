@@ -25,7 +25,11 @@ app.directive("meetingList", [function () {
 				$scope.editing = true;
 			};
 			$scope.editMeeting = function(meeting){
-				meeting.on = new Date(meeting.on);
+				$scope.meetings.forEach(function(meeting){
+					if (angular.isDate(meeting.on) === false) {
+						meeting.on = new Date(meeting.on);
+					}
+				});
 				$scope.meeting = meeting;
 				$scope.editing = true;
 			};

@@ -6,6 +6,7 @@ task-list{
   form{
     .block;
     margin-bottom: 10px;
+    white-space: nowrap;
 
     input[type='date']{
       width: 122px;
@@ -15,6 +16,7 @@ task-list{
   task{
     .block;
     .box;
+    overflow: hidden;
     margin-bottom: 4px;
 
     & > i{
@@ -28,6 +30,7 @@ task-list{
     &:hover{
       tools{
         display: inline-block;
+        opacity: .3;
 
         i:hover{
           color: black;
@@ -46,13 +49,21 @@ task-list{
     }
 
     tools{
-      overflow: visible;
-      margin-left: 10px;
-      color: #cccccc;
+      position: absolute;
+      padding: 7px;
+      top: -3px;
+      right: 0;
+      background: white;
+      border-radius: 3px;
       display: none;
 
+      &:hover{
+        opacity: 1;
+      }
+
       i{
-        margin-right: 4px;
+        margin-left: 4px;
+        cursor: pointer;
       }
     }
 

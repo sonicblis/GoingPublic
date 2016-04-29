@@ -7,7 +7,7 @@ app.directive("taskList", [function () {
 			$scope.tasks = firebaseArrayWatcher.getWatcher(firebase.tasks);
 			$scope.newTask = {};
 			$scope.initTask = function(){
-				$scope.newTask = {due: new Date(), owner: $scope.newTask.owner || peopleProvider.people[0].$id};
+				$scope.newTask = {due: new Date(), owner: $scope.newTask.owner};
 			};
 			$scope.saveTask = function(){
 				var task = $scope.newTask;
@@ -26,7 +26,11 @@ app.directive("taskList", [function () {
 				$scope.initTask();
 			};
 			$scope.editTask = function(task){
-				task.due = new Date(task.due);
+				$scope.tasks.forEach(function(task){
+					if (angular.isDate(task.due) === false){
+						task.due = new Date(task.due);
+					}
+				});
 				$scope.newTask = task;
 			};
 			$scope.deleteTask = function(task){
