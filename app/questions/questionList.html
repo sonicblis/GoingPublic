@@ -1,0 +1,40 @@
+<div>
+	<question-list-header>
+		<form ng-submit="saveQuestion()">
+			<input ng-model="question.text" required>
+			<button class="ok" type="submit">{{question.$id ? "Update" : "Ask"}}</button>
+			<button class="warn" type="button" ng-show="editing" ng-click="cancel()">Cancel</button>
+		</form>
+	</question-list-header>
+	<question ng-repeat="question in questions | orderBy:'!askedOn'">
+		<question-content ng-class="{'with-answers':question.answers}">
+			<bullet>Q:</bullet>
+			<question-text>
+				<span ng-click="addAnswer(question)">{{question.text}}</span>
+				<author>- {{getPersonNameFromId(question.askedBy)}} @ {{question.askedOn | date}} </author>
+				<add-answer ng-click="addAnswer(question)" ng-hide="answering">add answer</add-answer>
+				<div ng-show="answering">
+					<form ng-submit="saveAnswer()">
+						<input type="text" ng-model="answer.text">
+						<button type="submit" class="ok">Save</button>
+						<button type="button" class="warn" ng-click="cancelAnswer()">Cancel</button>
+					</form>
+				</div>
+				<tools>
+					<i class="fa fa-question-circle" title="re-open" ng-show="question.answered" ng-click="reOpenQuestion(question)"></i>
+					<i class="fa fa-pencil" ng-click="editQuestion(question)"></i>
+					<i class="fa fa-times-circle" ng-click="deleteQuestion(question)"></i>
+				</tools>
+			</question-text>
+		</question-content>
+		<answer ng-repeat="answer in question.answers" ng-show="!question.answered || answer.accepted" ng-class="{'accepted':answer.accepted}">
+			<bullet ng-show="question.answered">A:</bullet>
+			<bullet ng-hide="question.answered">
+				<i class="fa fa-square-o" ng-click="acceptAnswer(question, answer)"></i>
+			</bullet>
+			<answer-text>
+				{{answer.text}} <author>- {{getPersonNameFromId(answer.answeredBy)}} @ {{answer.answeredOn | date}}</author>
+			</answer-text>
+		</answer>
+	</question>
+</div>

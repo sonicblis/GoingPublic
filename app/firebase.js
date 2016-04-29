@@ -1,14 +1,17 @@
-var baseUrl = "[firebaseio.appname]";
+var baseUrl = "quickgoals.firebaseio.com";
 
 app.constant('firebase', {
     root: new Firebase(baseUrl),
     people: new Firebase(baseUrl + "/people"),
+    tasks: new Firebase(baseUrl + "/tasks"),
+    questions: new Firebase(baseUrl + "/questions"),
+    meetings: new Firebase(baseUrl + "/meetings"),
     events: {
         valueChanged: 'value',
         childAdded: 'child_added',
         childRemoved: 'child_removed'
     },
-    getCurrentTime: function() { return Firebase.ServerValue.TIMESTAMP; },
+    now: Firebase.ServerValue.TIMESTAMP,
     stringify: function(firebaseObj){
         var path = firebaseObj.toString().replace(firebaseObj.root(), ''); //trims the root url from the path
         for (var i in arguments){
@@ -21,7 +24,7 @@ app.constant('firebase', {
     cleanAngularObject: function(object){
         if (angular){
             var tempObj = angular.fromJson(angular.toJson(object)); //cleans off all $$hashkey values from child collections
-            for (n in tempObj){
+            for (var n in tempObj){
                 if (n.substring(0,1) == '$'){
                     delete tempObj[n];
                 }

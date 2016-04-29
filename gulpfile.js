@@ -29,7 +29,8 @@ gulp.task('thirdParty', function(){
         'node_modules/angular-sanitize/angular-sanitize.min.js',
         'node_modules/angular-ui-router/release/angular-ui-router.min.js',
         'node_modules/ui-router-extras/release/modular/ct-ui-router-extras.core.min.js',
-        'node_modules/ui-router-extras/release/modular/ct-ui-router-extras.dsr.min.js'
+        'node_modules/ui-router-extras/release/modular/ct-ui-router-extras.dsr.min.js',
+        'node_modules/checklist-model/checklist-model.js'
     ])
         .pipe(concat('thirdparty.js'))
         .pipe(gulp.dest('dist/'));

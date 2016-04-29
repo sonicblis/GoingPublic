@@ -1,0 +1,41 @@
+@import '../../styles/layout';
+
+meeting-list{
+  button{
+    margin-bottom: 10px;
+  }
+  meeting{
+    .block;
+    margin-bottom: 10px;
+
+    date{
+      .block;
+      i{
+        margin-right: 4px;
+        display: none !important;
+      }
+    }
+
+    attendees{
+      font-size: .8em;
+    }
+
+    summary{
+      .block;
+      .box;
+      padding: 3px 7px 5px;
+    }
+
+    &:hover{
+      i{
+        display: inline-block !important;
+        color: #ccc;
+
+        &:hover{
+          color: black;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}

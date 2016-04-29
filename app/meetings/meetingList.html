@@ -1,0 +1,34 @@
+<div>
+	<button class="ok" ng-hide="editing" ng-click="addMeeting()">Add Meeting</button>
+	<button class="ok" ng-show="editing" ng-click="saveMeeting()">{{meeting.$id ? "Update" : "Save"}}</button>
+	<button class="warn" ng-show="editing" ng-click="cancel()">Cancel</button>
+	<form ng-show="editing">
+		<form-row>
+			<label>When was the meeting?</label>
+			<input type="date" ng-model="meeting.on"><br>
+		</form-row>
+		<form-row>
+			<label>Attendees:</label>
+			<label ng-repeat="person in people">
+				<input type="checkbox" checklist-model="meeting.attendees" checklist-value="person.$id">{{person.name}}
+			</label>
+		</form-row>
+		<form-row>
+			<label>Gist:</label><br>
+			<div contenteditable ng-model="meeting.summary"></div>
+		</form-row>
+	</form>
+	<meeting ng-repeat="meeting in meetings | orderBy:'on'" ng-hide="editing">
+		<date>
+			{{meeting.on | date}} &nbsp;
+			<i class="fa fa-pencil" ng-click="editMeeting(meeting)"></i>
+			<i class="fa fa-times-circle" ng-click="deleteMeeting(meeting)"></i>
+		</date>
+		<summary>
+			<attendees>
+				{{getAttendeeNames(meeting.attendees)}}
+			</attendees>
+			<div ng-bind-html="meeting.summary | html"></div>
+		</summary>
+	</meeting>
+</div>

@@ -1,0 +1,81 @@
+.block{
+  display: block;
+  overflow: auto;
+  position: relative;
+}
+
+.box{
+  padding: 5px;
+  border: solid 1px #ccc;
+  background: white;
+  border-radius: 4px;
+}
+
+header{
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  left: 0px;
+  height: 40px;
+  background: black;
+  color: white;
+
+  brand{
+    font-size: 1.2em;
+    font-weight: bold;
+    padding: 6px 0 0 5px;
+    display: inline-block;
+  }
+
+  auth{
+    display: inline-block;
+    position: absolute;
+    right: 10px;
+    top: 8px;
+  }
+}
+
+body{
+  margin: 0;
+  padding: 40px 0 0 0;
+
+  content{
+    .block;
+    display: flex;
+    border: solid 1px #888;
+    width: 100%;
+
+    task-list, meeting-list, question-list{
+      vertical-align: top;
+      padding: 10px;
+      width: 33.3%;
+      height: calc(~"100vh - 50px");
+      overflow: scroll;
+      border-right: dashed 1px #ccc;
+    }
+
+    question-list{
+      border: 0;
+    }
+  }
+
+  form{
+    form-row{
+      .block;
+      overflow: visible;
+      margin-bottom: 10px;
+
+      label:first-child{
+        display: inline-block;
+        font-weight: bold;
+        margin-top: 4px;
+      }
+
+      div[contenteditable]{
+        border: solid 1px #ccc;
+        background: white;
+        padding: 5px;
+      }
+    }
+  }
+}

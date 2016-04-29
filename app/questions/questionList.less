@@ -1,0 +1,96 @@
+@import '../../styles/layout';
+
+question-list {
+  question-list-header{
+    .block;
+    margin-bottom: 10px;
+  }
+
+  question {
+    .block;
+    .box;
+
+    question-content{
+      .block;
+
+      &.with-answers {
+        padding-bottom: 5px;
+        border-bottom: solid 1px #aaa;
+      }
+
+      &:hover{
+        tools{
+          display: block;
+          opacity: .7;
+        }
+      }
+
+      question-text{
+        display: table-cell;
+
+        form{
+          .block;
+          margin-top: 10px;
+        }
+
+        add-answer{
+          .block;
+          cursor: pointer;
+          font-size: .7em;
+          &:hover{
+            text-decoration: underline;
+            color: #4795cc;
+          }
+        }
+      }
+    }
+
+    author{
+      color: #aaa;
+      font-size: .8em;
+    }
+
+    tools{
+      position: absolute;
+      padding: 3px;
+      top: -3px;
+      right: 0;
+      background: white;
+      border-radius: 3px;
+      display: none;
+
+      &:hover{
+        opacity: 1;
+      }
+
+      i{
+        margin-left: 4px;
+        cursor: pointer;
+      }
+    }
+
+    answer{
+      .block;
+      padding: 5px;
+      border-bottom: dashed 1px #ccc;
+
+      &:last-child, &.accepted{
+        border-bottom: 0;
+      }
+
+      &.accepted{
+        padding: 3px 0 0 2px;
+      }
+
+      answer-text{
+        display: table-cell;
+      }
+    }
+
+    bullet{
+      display: inline-block;
+      float: left;
+      margin-right: 10px;
+    }
+  }
+}

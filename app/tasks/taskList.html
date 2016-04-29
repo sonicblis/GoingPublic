@@ -1,0 +1,23 @@
+<div>
+	<form ng-submit="saveTask()">
+		<select ng-model="newTask.owner" ng-options="person.$id as person.name for person in people"></select>
+		<input type="text" ng-model="newTask.title" required>
+		<input type="date" ng-model="newTask.due" required>
+		<button class="ok" type="submit">{{newTask.$id ? 'Update' : 'Save'}}</button>
+		<button class="warn" type="button" ng-show="newTask.$id" ng-click="cancel()">Cancel</button>
+	</form>
+	<task ng-repeat="task in tasks | orderBy:'due'" ng-class="{'done':task.completed}">
+		<check>
+			<i class="fa" ng-class="{'fa-check-square-o':task.completed, 'fa-square-o':!task.completed}" ng-click="updateCompletion(task)"></i>
+		</check>
+		<task-text>
+			{{getTaskOwnerName(task.owner)}}:
+			<span ng-class="{'mine':task.owner === user.id}">{{task.title}}</span>
+			by {{task.due | date}}
+			<tools>
+				<i class="fa fa-pencil" ng-click="editTask(task)"></i>
+				<i class="fa fa-times-circle" ng-click="deleteTask(task)"></i>
+			</tools>
+		</task-text>
+	</task>
+</div>

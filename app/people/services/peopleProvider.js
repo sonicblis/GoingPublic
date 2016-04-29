@@ -1,9 +1,10 @@
 app.service('peopleProvider', ['$q', 'firebase', 'firebaseArrayWatcher', 'logProvider', '$rootScope', function($q, firebase, firebaseArrayWatcher, logProvider, $rootScope){
-    var _this = this;
+    var self = this;
 
     var peopleLoadedPromise = $q.defer();
     this.people = firebaseArrayWatcher.getWatcher(firebase.people, peopleLoadedPromise);
     this.peopleLoaded = peopleLoadedPromise.promise;
+    this.authenticatedPerson = undefined;
 
     function setUserInfo(authInfo){
         logProvider.info('peopleProvider', 'authInfo provided to setUserInfo', authInfo);
@@ -13,11 +14,16 @@ app.service('peopleProvider', ['$q', 'firebase', 'firebaseArrayWatcher', 'logPro
         };
         logProvider.info('peopleProvider','userInfo from auth', userInfo);
         firebase.people.child(authInfo.uid).set(userInfo);
-    };
-    this.registerUser = function(){
+        userInfo.id = authInfo.uid;
+        self.authenticatedPerson = userInfo;
+    }
+
+    this.registerUser = function(authProvider){
+        if (!authProvider){
+            authProvider = 'google';
+        }
         logProvider.info('peopleProvider', 'user being registered');
-        firebase.root.unauth();
-        firebase.root.authWithOAuthPopup('google', function (error, auth) {
+        firebase.root.authWithOAuthPopup(authProvider, function (error, auth) {
             if (!error){
                 logProvider.info('peopleProvider', 'user info retrieved from google', auth);
                 setUserInfo(auth);
@@ -26,5 +32,11 @@ app.service('peopleProvider', ['$q', 'firebase', 'firebaseArrayWatcher', 'logPro
                 console.error('couldn\'t log the user in', error);
             }
         });
+    };
+    this.checkAuth = function(){
+        var auth = firebase.root.getAuth();
+        if (auth){
+            setUserInfo(auth);
+        }
     }
 }]);

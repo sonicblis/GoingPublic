@@ -1,0 +1,6 @@
+<user ng-if="selectedPerson">
+	{{selectedPerson.name}}
+</user>
+<login ng-if="!selectedPerson" ng-click="authenticate()">
+	Log in with google
+</login>

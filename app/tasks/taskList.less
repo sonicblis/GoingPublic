@@ -1,0 +1,63 @@
+@import '../../styles/layout';
+
+task-list{
+  .block;
+
+  form{
+    .block;
+    margin-bottom: 10px;
+
+    input[type='date']{
+      width: 122px;
+    }
+  }
+
+  task{
+    .block;
+    .box;
+    margin-bottom: 4px;
+
+    & > i{
+      margin: 0 4px;
+    }
+
+    &.done{
+      color: #ccc;
+    }
+
+    &:hover{
+      tools{
+        display: inline-block;
+
+        i:hover{
+          color: black;
+          cursor: pointer;
+        }
+      }
+    }
+
+    check{
+      float: left;
+      margin: 0 7px 0 4px;
+    }
+
+    task-text{
+      display: table-cell;
+    }
+
+    tools{
+      overflow: visible;
+      margin-left: 10px;
+      color: #cccccc;
+      display: none;
+
+      i{
+        margin-right: 4px;
+      }
+    }
+
+    .mine{
+      font-weight: bold;
+    }
+  }
+}
