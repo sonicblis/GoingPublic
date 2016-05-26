@@ -3,7 +3,7 @@ app.directive("taskList", [function () {
 		restrict: 'E',
 		scope: true,
 		templateUrl: 'app/tasks/taskList.html',
-		controller: ['$scope', 'firebaseArrayWatcher', 'firebase', 'peopleProvider', 'logProvider', function($scope, firebaseArrayWatcher, firebase, peopleProvider, logProvider){
+		controller: ['$scope', 'firebaseArrayWatcher', 'firebase', 'peopleProvider', 'logProvider', '$filter', function($scope, firebaseArrayWatcher, firebase, peopleProvider, logProvider, $filter){
 			$scope.tasks = firebaseArrayWatcher.getWatcher(firebase.tasks);
 			$scope.newTask = {};
 			$scope.initTask = function(){
@@ -12,7 +12,7 @@ app.directive("taskList", [function () {
 			$scope.saveTask = function(){
 				var task = $scope.newTask;
 				logProvider.info('taskList', 'saving task', task);
-				task.due = task.due.getTime();
+				task.due = new Date(task.due).getTime();
 				if (!task.$id) {
 					task.createdOn = firebase.now;
 					task.createdBy = peopleProvider.authenticatedPerson.id;
@@ -25,12 +25,11 @@ app.directive("taskList", [function () {
 				}
 				$scope.initTask();
 			};
+			$scope.dueDate = function(task){
+				return new Date(task.due);
+			};
 			$scope.editTask = function(task){
-				$scope.tasks.forEach(function(task){
-					if (angular.isDate(task.due) === false){
-						task.due = new Date(task.due);
-					}
-				});
+				task.due = new Date(task.due);
 				$scope.newTask = task;
 			};
 			$scope.deleteTask = function(task){

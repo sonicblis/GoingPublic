@@ -9,6 +9,7 @@ question-list {
   question {
     .block;
     .box;
+    margin-bottom: 5px;
 
     question-content{
       .block;
@@ -74,7 +75,7 @@ question-list {
       padding: 5px;
       border-bottom: dashed 1px #ccc;
 
-      &:last-child, &.accepted{
+      &:last-of-type, &.accepted{
         border-bottom: 0;
       }
 
@@ -91,6 +92,17 @@ question-list {
       display: inline-block;
       float: left;
       margin-right: 10px;
+    }
+
+    view-conversation{
+      .block;
+      margin: 7px 0 0 25px;
+      cursor: pointer;
+      font-size: .7em;
+      &:hover{
+        text-decoration: underline;
+        color: #4795cc;
+      }
     }
   }
 }

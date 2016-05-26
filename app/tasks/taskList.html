@@ -6,7 +6,7 @@
 		<button class="ok" type="submit">{{newTask.$id ? 'Update' : 'Save'}}</button>
 		<button class="warn" type="button" ng-show="newTask.$id" ng-click="cancel()">Cancel</button>
 	</form>
-	<task ng-repeat="task in tasks | orderBy:'due'" ng-class="{'done':task.completed}">
+	<task ng-repeat="task in tasks | orderBy:dueDate" ng-class="{'done':task.completed}">
 		<check>
 			<i class="fa" ng-class="{'fa-check-square-o':task.completed, 'fa-square-o':!task.completed}" ng-click="updateCompletion(task)"></i>
 		</check>

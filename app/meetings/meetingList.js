@@ -11,12 +11,15 @@ app.directive("meetingList", [function () {
 				$scope.meeting = {on: new Date()};
 			};
 			$scope.saveMeeting = function(){
-				$scope.meeting.on = $scope.meeting.on.getTime();
-				if ($scope.meeting.$id){
-					firebase.meetings.child($scope.meeting.$id).set(firebase.cleanAngularObject($scope.meeting));
+				var meetingId = $scope.meeting.$id,
+					meeting = firebase.cleanAngularObject($scope.meeting);
+
+				meeting.on = new Date(meeting.on).getTime();
+				if (meetingId){
+					firebase.meetings.child(meetingId).set(meeting);
 				}
 				else {
-					firebase.meetings.push($scope.meeting);
+					firebase.meetings.push(meeting);
 				}
 				$scope.editing = false;
 				$scope.initMeeting();
@@ -24,12 +27,11 @@ app.directive("meetingList", [function () {
 			$scope.addMeeting = function(){
 				$scope.editing = true;
 			};
+			$scope.onDate = function(meeting){
+				return new Date() - new Date(meeting.on);
+			};
 			$scope.editMeeting = function(meeting){
-				$scope.meetings.forEach(function(meeting){
-					if (angular.isDate(meeting.on) === false) {
-						meeting.on = new Date(meeting.on);
-					}
-				});
+				meeting.on = new Date(meeting.on);
 				$scope.meeting = meeting;
 				$scope.editing = true;
 			};

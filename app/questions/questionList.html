@@ -12,8 +12,8 @@
 			<question-text>
 				<span ng-click="addAnswer(question)">{{question.text}}</span>
 				<author>- {{getPersonNameFromId(question.askedBy)}} @ {{question.askedOn | date}} </author>
-				<add-answer ng-click="addAnswer(question)" ng-hide="answering">add answer</add-answer>
-				<div ng-show="answering">
+				<add-answer ng-click="addAnswer(question)" ng-hide="question.answering || question.answered">add answer</add-answer>
+				<div ng-show="question.answering">
 					<form ng-submit="saveAnswer()">
 						<input type="text" ng-model="answer.text">
 						<button type="submit" class="ok">Save</button>
@@ -27,8 +27,9 @@
 				</tools>
 			</question-text>
 		</question-content>
-		<answer ng-repeat="answer in question.answers" ng-show="!question.answered || answer.accepted" ng-class="{'accepted':answer.accepted}">
-			<bullet ng-show="question.answered">A:</bullet>
+		<answer ng-repeat="answer in question.answers" ng-show="!question.answered || answer.accepted || viewing" ng-class="{'accepted':answer.accepted}">
+			<bullet ng-show="question.answered && answer.accepted">A:</bullet>
+			<bullet ng-show="viewing && !answer.accepted && question.answered">&nbsp;&nbsp;</bullet>
 			<bullet ng-hide="question.answered">
 				<i class="fa fa-square-o" ng-click="acceptAnswer(question, answer)"></i>
 			</bullet>
@@ -36,5 +37,6 @@
 				{{answer.text}} <author>- {{getPersonNameFromId(answer.answeredBy)}} @ {{answer.answeredOn | date}}</author>
 			</answer-text>
 		</answer>
+		<view-conversation ng-show="question.answered" ng-click="viewing = !viewing">{{viewing ? 'hide' : 'show'}} conversation</view-conversation>
 	</question>
 </div>

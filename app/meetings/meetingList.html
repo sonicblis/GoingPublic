@@ -18,7 +18,7 @@
 			<div contenteditable ng-model="meeting.summary"></div>
 		</form-row>
 	</form>
-	<meeting ng-repeat="meeting in meetings | orderBy:'on'" ng-hide="editing">
+	<meeting ng-repeat="meeting in meetings | orderBy:onDate" ng-hide="editing">
 		<date>
 			{{meeting.on | date}} &nbsp;
 			<i class="fa fa-pencil" ng-click="editMeeting(meeting)"></i>

@@ -4,18 +4,21 @@ app.directive("questionList", [function () {
 		scope: true,
 		templateUrl: 'app/questions/questionList.html',
 		controller: ['$scope', 'firebaseArrayWatcher', 'firebase', 'peopleProvider', 'logProvider', function ($scope, firebaseArrayWatcher, firebase, peopleProvider, logProvider) {
-			$scope.questions = firebaseArrayWatcher.getWatcher(firebase.questions);
+			$scope.questions = firebaseArrayWatcher.getWatcher(firebase.questions, null, function(){ $scope.ding.play(); });
 			$scope.question = {};
+			$scope.ding = new Audio('../../sounds/bing-sound.mp3');
 			$scope.answer = {};
 			$scope.initQuestion = function(){
 				$scope.question = {askedOn: new Date()};
 			};
 			$scope.saveQuestion = function(){
-				var question = $scope.question;
-				question.askedOn = question.askedOn.getTime();
+				var questionId = $scope.question.$id,
+					question = firebase.cleanAngularObject($scope.question);
+
+				question.askedOn = new Date(question.askedOn).getTime();
 				question.askedBy = peopleProvider.authenticatedPerson.id;
-				if (question.$id){
-					firebase.questions.child(question.$id).set(firebase.cleanAngularObject(question));
+				if (questionId){
+					firebase.questions.child(questionId).set(question);
 				}
 				else{
 					firebase.questions.push(question);
@@ -31,7 +34,7 @@ app.directive("questionList", [function () {
 				$scope.initQuestion();
 			};
 			$scope.cancelAnswer = function(){
-				$scope.answering = false;
+				$scope.selectedQuestion.answering = false;
 				$scope.answer.text = '';
 			};
 			$scope.editQuestion = function(question){
@@ -51,7 +54,7 @@ app.directive("questionList", [function () {
 			$scope.addAnswer = function(question){
 				if (!question.answered) {
 					$scope.selectedQuestion = question;
-					$scope.answering = true;
+					$scope.selectedQuestion.answering = true;
 				}
 			};
 			$scope.saveAnswer = function(){
@@ -59,7 +62,8 @@ app.directive("questionList", [function () {
 				$scope.answer.answeredOn = new Date().getTime();
 				$scope.answer.answeredBy = peopleProvider.authenticatedPerson.id;
 				firebase.questions.child(questionId).child('answers').push($scope.answer);
-				$scope.answering = false;
+				$scope.selectedQuestion.answering = false;
+
 			};
 			$scope.acceptAnswer = function(question, answer){
 				answer.accepted = true;
