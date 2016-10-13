@@ -8,6 +8,8 @@ app.directive("questionList", [function () {
 			$scope.question = {};
 			$scope.ding = new Audio('../../sounds/bing-sound.mp3');
 			$scope.answer = {};
+			$scope.loggedInPerson = peopleProvider.authenticatedPerson;
+
 			$scope.initQuestion = function(){
 				$scope.question = {askedOn: new Date()};
 			};

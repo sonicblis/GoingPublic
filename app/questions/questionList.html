@@ -12,7 +12,8 @@
 			<question-text>
 				<span ng-click="addAnswer(question)">{{question.text}}</span>
 				<author>- {{getPersonNameFromId(question.askedBy)}} @ {{question.askedOn | date}} </author>
-				<add-answer ng-click="addAnswer(question)" ng-hide="question.answering || question.answered">add answer</add-answer>
+				<add-answer ng-click="addAnswer(question)" ng-hide="answering || question.answered || !loggedInPerson.id">add answer</add-answer>
+				<add-answer ng-show="!loggedInPerson.id">Log in at the top right to answer</add-answer>
 				<div ng-show="question.answering">
 					<form ng-submit="saveAnswer()">
 						<input type="text" ng-model="answer.text">
